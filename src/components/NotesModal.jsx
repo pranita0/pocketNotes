@@ -2,22 +2,25 @@ import { useRef, useState } from "react";
 import "./NotesModal.css"; // Assuming you have some CSS for styling
 // import NotesGroup from "../pages/NotesGroup";
 
-function NotesModal({onClose}) {
+function NotesModal({onClose, addGroup}) {
     const modalRef = useRef();
     const [color, setColor] = useState('');
     const [groupName, setGroupName] = useState('');
        
-    // const handleCreate = () => {
-    //     if (groupName && color) {
-    //       onCreate({ groupName, color });
-    //       onClose();
-    //     }
-    // }
-    // const addData=(groupName, color)=>{
-    //   console.log(groupName);
-    //   console.log(color);
-    //  <NotesGroup name={groupName} color={color}/>
-    // }
+    const handleAddGroup=()=>{
+      if(groupName && color){
+        const newGroup={
+          id: groupName.slice(0,2).toUpperCase(),
+          name: groupName,
+          color: color,
+        };
+        addGroup(newGroup);
+        onClose();
+      }else{
+        console.log("Group name and color are required.");
+      }
+    };
+
 
     const closeModal=(e)=>{
         if(modalRef.current === e.target){
@@ -58,7 +61,7 @@ function NotesModal({onClose}) {
             ))}
           </div>
         </div>
-        {/* <button onClick={(handleCreate) => addData(groupName,color)} className="modalbtn">Create</button> */}
+        <button onClick={handleAddGroup} className="modalbtn">Create</button>
       </div>
     </div>
   );
